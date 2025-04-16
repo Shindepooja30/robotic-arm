@@ -1,0 +1,28 @@
+#include <Servo.h>
+
+Servo servo1, servo2, servo3;
+String inputString = "";
+
+void setup() {
+  Serial.begin(9600);
+  servo1.attach(9);
+  servo2.attach(10);
+  servo3.attach(11);
+}
+
+void loop() {
+  if (Serial.available()) {
+    inputString = Serial.readStringUntil('\n');
+    
+    int angle1 = inputString.substring(0, inputString.indexOf(',')).toInt();
+    int index1 = inputString.indexOf(',') + 1;
+    int angle2 = inputString.substring(index1, inputString.indexOf(',', index1)).toInt();
+    int angle3 = inputString.substring(inputString.lastIndexOf(',') + 1).toInt();
+
+    servo1.write(angle1);
+    servo2.write(angle2);
+    servo3.write(angle3);
+
+    delay(20);
+  }
+}
